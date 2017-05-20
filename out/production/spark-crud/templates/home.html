@@ -1,5 +1,18 @@
 <html>
 <body>
-Hello, {{name}}!
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+Hello, {{name}}! Here's your book list...
+<form action="/home" method="post">
+    <input type="text" placeholder="Title" name="title"/>
+    <input type="text" placeholder="Author" name="author"/>
+    <button type="submit">Submit</button>
+</form>
+{{#books}}
+    <li>
+        {{.}}
+    </li>
+{{/books}}
 </body>
 </html>
