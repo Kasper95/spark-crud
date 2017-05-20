@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 public class Main {
 
+    private static User user;
+
     public static void main(String[] args) {
 
         Spark.init();
@@ -16,10 +18,24 @@ public class Main {
                 "/",
                 ((request, response) -> {
                     HashMap m = new HashMap();
-                    m.put("name", "Kaela");
-                    return new ModelAndView(m, "home.html");
+                    if (user == null) {
+                        return new ModelAndView(m, "login.html");
+                    } else {
+                        m.put("name", user.getName());
+                        return new ModelAndView(m, "home.html");
+                    }
                 }),
                 new MustacheTemplateEngine()
+        );
+
+        Spark.post(
+                "/login",
+                ((request, response) -> {
+                    String name = request.queryParams("loginName");
+                    user = new User(name);
+                    response.redirect("/");
+                    return "";
+                })
         );
     }
 }
